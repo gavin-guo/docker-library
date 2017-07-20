@@ -1,0 +1,67 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.6
+    container_name: mysql
+    restart: always
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
+    volumes:
+      - ~/Developer/storage/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=root
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    restart: always
+    volumes:
+      - ~/Developer/storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  kafka:
+    image: gaven/kafka
+    container_name: kafka
+    restart: always
+    ports:
+      - 2181:2181
+      - 9092:9092
+      - 9000:9000
+      - 8081:8081
+    environment:
+      - ADVERTISED_HOST=localhost
+      - ADVERTISED_PORT=9092
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ~/Developer/storage/redis:/data
+    ports:
+      - 6379:6379
+
+  # haproxy:
+  #   image: haproxy:alpine
+  #   container_name: haproxy
+  #   restart: always
+  #   volumes:
+  #     - ~/Developer/storage/haproxy:/usr/local/etc/haproxy:ro
+  #   ports:
+  #     - 12121:12121
+
+  # elasticsearch:
+  #   image: elasticsearch:alpine
+  #   container_name: elasticsearch
+  #   restart: always
+  #   volumes:
+  #     - ~/Developer/storage/elasticsearch:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
