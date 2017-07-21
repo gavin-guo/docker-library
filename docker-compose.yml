@@ -56,6 +56,13 @@ services:
   #   ports:
   #     - 12121:12121
 
+  filebeat:
+    image: gaven/filebeat
+    container_name: filebeat
+    restart: always
+    volumes:
+      - ~/Developer/log:/input
+
   elasticsearch:
     image: elasticsearch:alpine
     container_name: elasticsearch
@@ -73,6 +80,3 @@ services:
       - 5601:5601
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
-    
-
-
