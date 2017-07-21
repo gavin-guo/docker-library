@@ -21,12 +21,11 @@ RUN set -x \
     && apk del .build-deps
 
 RUN set -x \
+    && chmod +x /filebeat/filebeat \
 	&& mkdir /input
 
 COPY filebeat.yml /
 
 VOLUME /input
 
-WORKDIR /filebeat/bin
-
-CMD [ "filebeat", "-e", "-c", "/filebeat.yml" ]
+CMD [ "/filebeat/filebeat", "-e", "-c", "/filebeat.yml" ]
