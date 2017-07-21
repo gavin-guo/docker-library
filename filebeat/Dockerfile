@@ -27,6 +27,6 @@ COPY filebeat.yml /
 
 VOLUME /input
 
-ENV PATH=$PATH:/filebeat/bin
+WORKDIR /filebeat/bin
 
-CMD [ “/filebeat/bin/filebeat", "-e", "-c", "/filebeat.yml" ]
+CMD [ “filebeat", "-e", "-c", "/filebeat.yml" ]
