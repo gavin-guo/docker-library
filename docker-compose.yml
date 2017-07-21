@@ -56,12 +56,23 @@ services:
   #   ports:
   #     - 12121:12121
 
-  # elasticsearch:
-  #   image: elasticsearch:alpine
-  #   container_name: elasticsearch
-  #   restart: always
-  #   volumes:
-  #     - ~/Developer/storage/elasticsearch:/usr/share/elasticsearch/data
-  #   ports:
-  #     - 9200:9200
-  #     - 9300:9300
+  elasticsearch:
+    image: elasticsearch:alpine
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - ~/Developer/storage/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: kibana
+    container_name: kibana
+    restart: always
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    
+
+
