@@ -29,4 +29,4 @@ VOLUME /input
 
 WORKDIR /filebeat/bin
 
-CMD [ “filebeat", "-e", "-c", "/filebeat.yml" ]
+CMD [ "filebeat", "-e", "-c", "/filebeat.yml" ]
