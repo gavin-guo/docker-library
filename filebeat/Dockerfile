@@ -29,4 +29,4 @@ VOLUME /input
 
 ENV PATH=$PATH:/filebeat/bin
 
-CMD [ "filebeat", "-e", "-c", "/filebeat.yml" ]
+CMD [ “/filebeat/bin/filebeat", "-e", "-c", "/filebeat.yml" ]
