@@ -26,6 +26,6 @@ RUN set -x \
 
 COPY filebeat.yml /
 
-VOLUME /input
+VOLUME ["/input", "/filebeat.yml"]
 
 CMD [ "/filebeat/filebeat", "-e", "-c", "/filebeat.yml" ]
