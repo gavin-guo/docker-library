@@ -24,8 +24,6 @@ RUN set -x \
     && chmod +x /filebeat/filebeat \
 	&& mkdir /input
 
-COPY filebeat.yml /
-
 VOLUME ["/input", "/filebeat.yml"]
 
 CMD [ "/filebeat/filebeat", "-e", "-c", "/filebeat.yml" ]
