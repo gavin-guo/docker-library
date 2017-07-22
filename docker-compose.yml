@@ -7,7 +7,7 @@ services:
     restart: always
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
     volumes:
-      - ~/Developer/storage/mysql:/var/lib/mysql
+      - ~/Developer/docker/storage/mysql:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
@@ -20,7 +20,7 @@ services:
     container_name: rabbitmq
     restart: always
     volumes:
-      - ~/Developer/storage/rabbitmq:/var/lib/rabbitmq
+      - ~/Developer/docker/storage/rabbitmq:/var/lib/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -43,24 +43,16 @@ services:
     container_name: redis
     restart: always
     volumes:
-      - ~/Developer/storage/redis:/data
+      - ~/Developer/docker/storage/redis:/data
     ports:
       - 6379:6379
-
-  # haproxy:
-  #   image: haproxy:alpine
-  #   container_name: haproxy
-  #   restart: always
-  #   volumes:
-  #     - ~/Developer/storage/haproxy:/usr/local/etc/haproxy:ro
-  #   ports:
-  #     - 12121:12121
 
   filebeat:
     image: gaven/filebeat
     container_name: filebeat
     restart: always
     volumes:
+      - ~/Developer/docker/config/filebeat/filebeat.yml:/filebeat.yml
       - ~/Developer/log:/input
 
   elasticsearch:
@@ -68,7 +60,7 @@ services:
     container_name: elasticsearch
     restart: always
     volumes:
-      - ~/Developer/storage/elasticsearch:/usr/share/elasticsearch/data
+      - ~/Developer/docker/storage/elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 
@@ -80,3 +72,12 @@ services:
       - 5601:5601
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
+
+  # haproxy:
+  #   image: haproxy:alpine
+  #   container_name: haproxy
+  #   restart: always
+  #   volumes:
+  #     - ~/Developer/storage/haproxy:/usr/local/etc/haproxy:ro
+  #   ports:
+  #     - 12121:12121
