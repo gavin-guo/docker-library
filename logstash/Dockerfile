@@ -82,4 +82,4 @@ RUN set -ex; \
 
 VOLUME ["/logstash.conf"]
 
-CMD ["-e", ""]
+CMD ["logstash", "-f", "/logstash.conf"]
