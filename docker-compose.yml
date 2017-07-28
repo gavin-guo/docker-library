@@ -8,7 +8,7 @@ services:
     restart: always
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
     volumes:
-      - ~/Developer/docker/storage/mysql:/var/lib/mysql
+      - ./data_volumes/mysql:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
@@ -16,37 +16,37 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=root
 
-  # rabbitmq:
-  #   image: rabbitmq:management-alpine
-  #   container_name: rabbitmq
-  #   restart: always
-  #   volumes:
-  #     - ~/Developer/docker/storage/rabbitmq:/var/lib/rabbitmq
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    restart: always
+    volumes:
+      - ./data_volumes/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
 
-  # kafka:
-  #   image: gaven/kafka
-  #   container_name: kafka
-  #   restart: always
-  #   ports:
-  #     - 2181:2181
-  #     - 9092:9092
-  #     - 9000:9000
-  #     - 8081:8081
-  #   environment:
-  #     - ADVERTISED_HOST=localhost
-  #     - ADVERTISED_PORT=9092
+  kafka:
+    image: gaven/kafka
+    container_name: kafka
+    restart: always
+    ports:
+      - 2181:2181
+      - 9092:9092
+      - 9000:9000
+      - 8081:8081
+    environment:
+      - ADVERTISED_HOST=localhost
+      - ADVERTISED_PORT=9092
 
-  # redis:
-  #   image: redis:alpine
-  #   container_name: redis
-  #   restart: always
-  #   volumes:
-  #     - ~/Developer/docker/storage/redis:/data
-  #   ports:
-  #     - 6379:6379
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ./data_volumes/redis:/data
+    ports:
+      - 6379:6379
 
   filebeat:
     image: gaven/filebeat
@@ -55,23 +55,25 @@ services:
     volumes:
       - ./external_config/filebeat/filebeat.yml:/filebeat.yml
       - ~/Developer/log:/input
+    depends_on:
+      - elasticsearch
 
-  logstash:
-    image: logstash:alpine
-    container_name: logstash
-    restart: always
-    command: logstash -f /config/logstash.conf
-    volumes:
-      - ./external_config/logstash:/config
-    ports:
-      - 5044:5044
+  # logstash:
+  #   image: logstash
+  #   container_name: logstash
+  #   restart: always
+  #   command: logstash -f /config/logstash.conf
+  #   volumes:
+  #     - ./external_config/logstash:/config
+  #   depends_on:
+  #     - elasticsearch
 
   elasticsearch:
     image: elasticsearch:alpine
     container_name: elasticsearch
     restart: always
     volumes:
-      - ~/Developer/docker/storage/elasticsearch:/usr/share/elasticsearch/data
+      - ./data_volumes/elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 
@@ -83,12 +85,14 @@ services:
       - 5601:5601
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
 
-  # haproxy:
-  #   image: haproxy:alpine
-  #   container_name: haproxy
-  #   restart: always
-  #   volumes:
-  #     - ~/Developer/storage/haproxy:/usr/local/etc/haproxy:ro
-  #   ports:
-  #     - 12121:12121
+  haproxy:
+    image: haproxy:alpine
+    container_name: haproxy
+    restart: always
+    volumes:
+      - ./external_config/haproxy:/usr/local/etc/haproxy:ro
+    ports:
+      - 12121:12121

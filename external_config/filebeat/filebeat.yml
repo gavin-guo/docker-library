@@ -1,11 +1,16 @@
 filebeat.prospectors:
 - input_type: log
+  json.keys_under_root: true
   paths:
     - /input/*.log
     - /input/*/*.log
 
 output.elasticsearch:
+  enabled: true
   hosts: ["elasticsearch:9200"]
+  template.name: filebeat
+  template.path: filebeat.template.json
 
-json.keys_under_root: true
-json.add_error_key: true
+output.logstash:
+  enabled: false
+  hosts: ["logstash:5044"]
