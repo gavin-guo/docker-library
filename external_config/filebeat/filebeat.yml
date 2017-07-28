@@ -6,3 +6,6 @@ filebeat.prospectors:
 
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
+
+json.keys_under_root: true
+json.add_error_key: true

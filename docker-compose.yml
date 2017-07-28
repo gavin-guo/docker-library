@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  
+
   mysql:
     image: mysql:5.6
     container_name: mysql
@@ -16,45 +16,55 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=root
 
-  rabbitmq:
-    image: rabbitmq:management-alpine
-    container_name: rabbitmq
-    restart: always
-    volumes:
-      - ~/Developer/docker/storage/rabbitmq:/var/lib/rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
+  # rabbitmq:
+  #   image: rabbitmq:management-alpine
+  #   container_name: rabbitmq
+  #   restart: always
+  #   volumes:
+  #     - ~/Developer/docker/storage/rabbitmq:/var/lib/rabbitmq
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
 
-  kafka:
-    image: gaven/kafka
-    container_name: kafka
-    restart: always
-    ports:
-      - 2181:2181
-      - 9092:9092
-      - 9000:9000
-      - 8081:8081
-    environment:
-      - ADVERTISED_HOST=localhost
-      - ADVERTISED_PORT=9092
+  # kafka:
+  #   image: gaven/kafka
+  #   container_name: kafka
+  #   restart: always
+  #   ports:
+  #     - 2181:2181
+  #     - 9092:9092
+  #     - 9000:9000
+  #     - 8081:8081
+  #   environment:
+  #     - ADVERTISED_HOST=localhost
+  #     - ADVERTISED_PORT=9092
 
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: always
-    volumes:
-      - ~/Developer/docker/storage/redis:/data
-    ports:
-      - 6379:6379
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis
+  #   restart: always
+  #   volumes:
+  #     - ~/Developer/docker/storage/redis:/data
+  #   ports:
+  #     - 6379:6379
 
   filebeat:
     image: gaven/filebeat
     container_name: filebeat
     restart: always
     volumes:
-      - external_config/filebeat/filebeat.yml:/filebeat.yml
-      - /opt/log/stash/customer:/input
+      - ./external_config/filebeat/filebeat.yml:/filebeat.yml
+      - ~/Developer/log:/input
+
+  logstash:
+    image: logstash:alpine
+    container_name: logstash
+    restart: always
+    command: logstash -f /config/logstash.conf
+    volumes:
+      - ./external_config/logstash:/config
+    ports:
+      - 5044:5044
 
   elasticsearch:
     image: elasticsearch:alpine
