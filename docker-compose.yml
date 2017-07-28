@@ -88,11 +88,11 @@ services:
     depends_on:
       - elasticsearch
 
-  haproxy:
-    image: haproxy:alpine
-    container_name: haproxy
-    restart: always
-    volumes:
-      - ./external_config/haproxy:/usr/local/etc/haproxy:ro
-    ports:
-      - 12121:12121
+  # haproxy:
+  #   image: haproxy:alpine
+  #   container_name: haproxy
+  #   restart: always
+  #   volumes:
+  #     - ./external_config/haproxy:/usr/local/etc/haproxy:ro
+  #   ports:
+  #     - 12121:12121
