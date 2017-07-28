@@ -54,7 +54,7 @@ services:
     restart: always
     volumes:
       - ./external_config/filebeat/filebeat.yml:/filebeat.yml
-      - ~/Developer/log:/input
+      - /opt/log/stash:/input
     depends_on:
       - elasticsearch
 
