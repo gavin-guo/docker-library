@@ -58,16 +58,6 @@ services:
     depends_on:
       - elasticsearch
 
-  # logstash:
-  #   image: logstash
-  #   container_name: logstash
-  #   restart: always
-  #   command: logstash -f /config/logstash.conf
-  #   volumes:
-  #     - ./external_config/logstash:/config
-  #   depends_on:
-  #     - elasticsearch
-
   elasticsearch:
     image: elasticsearch:alpine
     container_name: elasticsearch
@@ -87,6 +77,16 @@ services:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
     depends_on:
       - elasticsearch
+
+  # logstash:
+  #   image: logstash
+  #   container_name: logstash
+  #   restart: always
+  #   command: logstash -f /config/logstash.conf
+  #   volumes:
+  #     - ./external_config/logstash:/config
+  #   depends_on:
+  #     - elasticsearch
 
   # haproxy:
   #   image: haproxy:alpine
