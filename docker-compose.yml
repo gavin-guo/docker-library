@@ -48,35 +48,35 @@ services:
     ports:
       - 6379:6379
 
-  filebeat:
-    image: gaven/filebeat
-    container_name: filebeat
-    restart: always
-    volumes:
-      - ./external_config/filebeat/filebeat.yml:/filebeat.yml
-      - /opt/log/stash:/input
-    depends_on:
-      - elasticsearch
+  # filebeat:
+  #   image: gaven/filebeat
+  #   container_name: filebeat
+  #   restart: always
+  #   volumes:
+  #     - ./external_config/filebeat/filebeat.yml:/filebeat.yml
+  #     - /opt/log/stash:/input
+  #   depends_on:
+  #     - elasticsearch
 
-  elasticsearch:
-    image: elasticsearch:alpine
-    container_name: elasticsearch
-    restart: always
-    volumes:
-      - ./data_volumes/elasticsearch:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
+  # elasticsearch:
+  #   image: elasticsearch:alpine
+  #   container_name: elasticsearch
+  #   restart: always
+  #   volumes:
+  #     - ./data_volumes/elasticsearch:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
 
-  kibana:
-    image: kibana
-    container_name: kibana
-    restart: always
-    ports:
-      - 5601:5601
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
+  # kibana:
+  #   image: kibana
+  #   container_name: kibana
+  #   restart: always
+  #   ports:
+  #     - 5601:5601
+  #   environment:
+  #     - ELASTICSEARCH_URL=http://elasticsearch:9200
+  #   depends_on:
+  #     - elasticsearch
 
   # logstash:
   #   image: logstash
