@@ -58,17 +58,17 @@ services:
   #   depends_on:
   #     - elasticsearch
 
-  # elasticsearch:
-  #   image: elasticsearch:alpine
-  #   container_name: elasticsearch
-  #   restart: always
-  #   volumes:
-  #     - ./data_volumes/elasticsearch:/usr/share/elasticsearch/data
-  #   ports:
-  #     - 9200:9200
-  #   # environment:
-  #   #   - http.host=0.0.0.0
-  #   #   - transport.host=127.0.0.1
+  elasticsearch:
+    image: elasticsearch:alpine
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - ./data_volumes/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    # environment:
+    #   - http.host=0.0.0.0
+    #   - transport.host=127.0.0.1
 
   # kibana:
   #   image: kibana
