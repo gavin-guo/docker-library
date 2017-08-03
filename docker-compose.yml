@@ -16,6 +16,15 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=root
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ./data_volumes/redis:/data
+    ports:
+      - 6379:6379
+
   rabbitmq:
     image: rabbitmq:management-alpine
     container_name: rabbitmq
@@ -39,15 +48,6 @@ services:
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
 
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: always
-    volumes:
-      - ./data_volumes/redis:/data
-    ports:
-      - 6379:6379
-
   # filebeat:
   #   image: gaven/filebeat
   #   container_name: filebeat
@@ -66,6 +66,9 @@ services:
   #     - ./data_volumes/elasticsearch:/usr/share/elasticsearch/data
   #   ports:
   #     - 9200:9200
+  #   # environment:
+  #   #   - http.host=0.0.0.0
+  #   #   - transport.host=127.0.0.1
 
   # kibana:
   #   image: kibana
@@ -83,6 +86,9 @@ services:
   #   container_name: logstash
   #   restart: always
   #   command: logstash -f /config/logstash.conf
+  #   # command: logstash -e 'input { udp { port => 4560 codec => json } } output { elasticsearch { hosts => "elasticsearch:9200" } }'
+  #   # ports:
+  #   #   - 4560:4560/udp
   #   volumes:
   #     - ./external_config/logstash:/config
   #   depends_on:
@@ -95,4 +101,12 @@ services:
   #   volumes:
   #     - ./external_config/haproxy:/usr/local/etc/haproxy:ro
   #   ports:
-  #     - 12121:12121
+  #     - 9999:9999
+
+  # registry:
+  #   image: registry
+  #   container_name: registry
+  #   volumes:
+  #     - ./data_volumes/registry:/var/lib/registry
+  #   ports:
+  #     - 5000:5000
