@@ -108,14 +108,14 @@ services:
     container_name: registry
     restart: always
     volumes:
-      - ./external_config/registry/certs:/certs
+      # - ./external_config/registry/certs:/certs
       - ./external_config/registry/auth:/auth
       - ./data_volumes/registry:/var/lib/registry
     ports:
       - 5000:5000
     environment:
-      - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/client.crt
-      - REGISTRY_HTTP_TLS_KEY=/certs/client.key
+      # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/client.crt
+      # - REGISTRY_HTTP_TLS_KEY=/certs/client.key
       - REGISTRY_AUTH=htpasswd
       - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
       - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
