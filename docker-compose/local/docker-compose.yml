@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+
+  mysql:
+    image: mysql:5.6
+    container_name: mysql
+    restart: always
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
+    volumes:
+      - ./data_storage/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=root
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ./data_storage/redis:/data
+    ports:
+      - 6379:6379
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    restart: always
+    volumes:
+      - ./data_storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  kafka:
+    image: gaven/kafka
+    container_name: kafka
+    restart: always
+    ports:
+      - 2181:2181
+      - 9092:9092
+      - 9000:9000
+      - 18081:8081
+    environment:
+      - ADVERTISED_HOST=localhost
+      - ADVERTISED_PORT=9092
+
+  filebeat:
+    image: gaven/filebeat
+    container_name: filebeat
+    restart: always
+    volumes:
+      - ./external_config/filebeat/filebeat.yml:/filebeat.yml
+      - /opt/log/stash:/input
+    depends_on:
+      - elasticsearch
+
+  # haproxy:
+  #   image: haproxy:alpine
+  #   container_name: haproxy
+  #   restart: always
+  #   volumes:
+  #     - ./external_config/haproxy:/usr/local/etc/haproxy:ro
+  #   ports:
+  #     - 9999:9999
