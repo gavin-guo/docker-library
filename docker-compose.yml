@@ -112,10 +112,11 @@ services:
       - ./external_config/registry/auth:/auth
       - ./data_volumes/registry:/var/lib/registry
     ports:
-      - 5000:5000
+      - 80:80
     environment:
-      # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/client.crt
-      # - REGISTRY_HTTP_TLS_KEY=/certs/client.key
+      - REGISTRY_HTTP_ADDR=0.0.0.0:80
+      # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
+      # - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
       - REGISTRY_AUTH=htpasswd
       - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
       - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
