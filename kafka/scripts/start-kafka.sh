@@ -15,12 +15,21 @@ if ! grep -q "^############ Settings Added By Docker ############$" $KAFKA_HOME/
 fi
 
 # Set the external host and port
-if [ ! -z "$ADVERTISED_LISTENERS" ]; then
-    echo "advertised listeners: $ADVERTISED_LISTENERS"
+if [ ! -z "$ADVERTISED_HOST" ]; then
+    echo "advertised listeners: $ADVERTISED_HOST"
     if grep -q "^advertised.listeners" $KAFKA_HOME/config/server.properties; then
-        sed -r -i "s/#(advertised.listeners)=(.*)/\1=PLAINTEXT://$ADVERTISED_LISTENERS/g" $KAFKA_HOME/config/server.properties
+        sed -r -i "s/#(advertised.listeners)=(.*)/\1=$ADVERTISED_HOST/g" $KAFKA_HOME/config/server.properties
     else
-        echo "advertised.listeners=PLAINTEXT://$ADVERTISED_LISTENERS" >> $KAFKA_HOME/config/server.properties
+        echo "advertised.listeners=$ADVERTISED_HOST" >> $KAFKA_HOME/config/server.properties
+    fi
+fi
+
+if [ ! -z "$ADVERTISED_PORT" ]; then
+    echo "listeners: $ADVERTISED_PORT"
+    if grep -q "^listeners" $KAFKA_HOME/config/server.properties; then
+        sed -r -i "s/#(listeners)=(.*)/\1=$ADVERTISED_PORT/g" $KAFKA_HOME/config/server.properties
+    else
+        echo "listeners=$ADVERTISED_PORT" >> $KAFKA_HOME/config/server.properties
     fi
 fi
 
