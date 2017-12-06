@@ -23,6 +23,7 @@ if [ ! -z "$ADVERTISED_HOST" ]; then
         echo "advertised.host.name=$ADVERTISED_HOST" >> $KAFKA_HOME/config/server.properties
     fi
 fi
+
 if [ ! -z "$ADVERTISED_PORT" ]; then
     echo "advertised port: $ADVERTISED_PORT"
     if grep -q "^advertised.port" $KAFKA_HOME/config/server.properties; then
