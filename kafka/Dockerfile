@@ -6,7 +6,6 @@ MAINTAINER gavin-guo
 RUN apk add --no-cache \
     bash \
     su-exec \
-    snappy \
     supervisor
 
 ENV ZOO_USER=zookeeper \
@@ -26,7 +25,7 @@ ENV SCALA_VERSION=2.11 \
 ENV KAFKA_HOME="/kafka_${SCALA_VERSION}-${KAFKA_VERSION}" \
     ZOOKEEPER_HOME="/zookeeper-${ZOOKEEPER_VERSION}"
 
-ENV KAFKA_MONITOR_PORT 8081
+ENV KAFKA_MONITOR_PORT 9001
 
 # Add a user and make dirs
 RUN set -x \
