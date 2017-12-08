@@ -17,7 +17,7 @@ ENV ZOO_USER=zookeeper \
     ZOO_SYNC_LIMIT=2
 
 ENV SCALA_VERSION=2.11 \
-    KAFKA_VERSION=0.11.0.1 \
+    KAFKA_VERSION=1.0.0 \
     ZOOKEEPER_VERSION=3.4.10 \
     KAFDROP_VERSION=2.0.0 \
     KAFKA_MANAGER_VERSION=1.3.3.7
@@ -43,7 +43,7 @@ RUN set -x \
     && wget -q "http://www.apache.org/dist/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz" \
     && tar -xzf "zookeeper-${ZOOKEEPER_VERSION}.tar.gz" \
     && cp "$ZOOKEEPER_HOME/conf/zoo_sample.cfg" "$ZOOKEEPER_HOME/conf/zoo.cfg" \
-    && wget -q "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
+    && wget -q "http://mirror.reverse.net/pub/apache/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && tar -xzf "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && wget -q "http://sftp.chinacloudapp.cn/docker/kafdrop-${KAFDROP_VERSION}.jar" -O /kafdrop.jar \
     && wget -q "https://github.com/Morningstar/kafka-offset-monitor/releases/download/0.4.1/KafkaOffsetMonitor-assembly-0.4.1-SNAPSHOT.jar" -O /kafkaOffsetMonitor.jar \
