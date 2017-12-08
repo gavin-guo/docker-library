@@ -1,9 +1,9 @@
-FROM java:openjdk-8-jre
+FROM openjdk:8-jre-alpine
 
 MAINTAINER gavin-guo
 
 # Install required packages
-RUN apt-get install -y --no-install-recommends \
+RUN apk add --no-cache \
     bash \
     su-exec \
     snappy \
@@ -36,8 +36,8 @@ RUN set -x \
 
 # Download Zookeeper & Kafka & Kafdrop & Kafka-Manager, untar and clean up
 RUN set -x \
-	&& apt-get update \
-    && apt-get install -y --no-install-recommends \
+	&& apk update \
+    && apk add --no-cache --virtual .build-deps \
     	ca-certificates \
     	wget \
         tar \
@@ -49,7 +49,7 @@ RUN set -x \
     && wget -q "http://sftp.chinacloudapp.cn/docker/kafdrop-${KAFDROP_VERSION}.jar" -O /kafdrop.jar \
     && wget -q "https://github.com/Morningstar/kafka-offset-monitor/releases/download/0.4.1/KafkaOffsetMonitor-assembly-0.4.1-SNAPSHOT.jar" -O /kafkaOffsetMonitor.jar \
     && rm -r "zookeeper-${ZOOKEEPER_VERSION}.tar.gz" "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
-    && apt-get purge -y --auto-remove ca-certificates wget tar
+    && apk del .build-deps
 
 ADD scripts/start-kafka.sh scripts/start-kafdrop.sh scripts/start-kafka-offset-monitor.sh /
 
