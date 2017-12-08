@@ -6,6 +6,7 @@ MAINTAINER gavin-guo
 RUN apk add --no-cache \
     bash \
     su-exec \
+    snappy \
     supervisor
 
 ENV ZOO_USER=zookeeper \
@@ -40,7 +41,6 @@ RUN set -x \
     	ca-certificates \
     	wget \
         tar \
-        snappy \
     && wget -q "http://www.apache.org/dist/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz" \
     && tar -xzf "zookeeper-${ZOOKEEPER_VERSION}.tar.gz" \
     && cp "$ZOOKEEPER_HOME/conf/zoo_sample.cfg" "$ZOOKEEPER_HOME/conf/zoo.cfg" \
