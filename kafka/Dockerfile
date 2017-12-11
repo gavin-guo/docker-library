@@ -2,7 +2,7 @@ FROM openjdk:8-jre-alpine
 
 MAINTAINER gavin-guo
 
-# Install glibc
+# because alpine linux has no glibc, should install glibc.
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
     ALPINE_GLIBC_PACKAGE_VERSION="2.26-r0" && \
     ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
@@ -36,7 +36,7 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
 
 ENV LANG=C.UTF-8
 
-# Install required packages
+# install required packages
 RUN apk add --no-cache \
     bash \
     su-exec \
