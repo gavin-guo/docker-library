@@ -2,6 +2,7 @@ FROM openjdk:8-jre-alpine
 
 MAINTAINER gavin-guo
 
+# install glibc on alpine linux
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
     ALPINE_GLIBC_PACKAGE_VERSION="2.26-r0" && \
     ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
