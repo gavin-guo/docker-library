@@ -1,26 +1,17 @@
-filebeat.inputs:
-- type: log
-  enabled: true
-  paths:
-    - /input/**/*.log
-  recursive_glob.enabled: true
+filebeat.prospectors:
+- input_type: log
   json.keys_under_root: true
   json.overwrite_keys: true
+  paths:
+    - /input/*.log
+    - /input/*/*.log
   fields:
     hostname: hostname
   fields_under_root: true
 
-setup.template.settings:
-  index.number_of_shards: 1
-  #index.codec: best_compression
-  #_source.enabled: false
-
-processors:
-- rename:
-    fields:
-    - from: "service"
-      to: "x_service"
-
 output.elasticsearch:
   enabled: true
   hosts: ["elasticsearch:9200"]
+  template.name: filebeat
+  template.path: filebeat.template.json
+  index: "log-app"

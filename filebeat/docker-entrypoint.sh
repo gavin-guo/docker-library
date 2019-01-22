@@ -1,9 +1,9 @@
 #!/bin/sh
-if [ -z "$ELASTICSEARCH_CONNECT" ]; then
-    echo "ERROR: missing mandatory config: ELASTICSEARCH_CONNECT"
+if [ -z "$ELASTICSEARCH_ENDPOINT" ]; then
+    echo "ERROR: missing mandatory config: ELASTICSEARCH_ENDPOINT"
     exit 1
 else
-    sed -r -i "s/(hosts:) (.*)/\1 [\"$ELASTICSEARCH_CONNECT\"]/g" /filebeat.yml
+    sed -r -i "s/(hosts:) (.*)/\1 [\"$ELASTICSEARCH_ENDPOINT\"]/g" /filebeat.yml
 fi
 
 if [ ! -z "$HOSTNAME" ]; then

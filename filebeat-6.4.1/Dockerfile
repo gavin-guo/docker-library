@@ -1,11 +1,11 @@
-FROM alpine:3.6
+FROM gaven/alpine:8-jre
 
 MAINTAINER gavin-guo
 
 RUN apk add --no-cache \
     bash
 
-ENV FILEBEAT_VERSION=5.5.0
+ENV FILEBEAT_VERSION=6.4.1
 
 RUN set -x \
 	&& apk update \
