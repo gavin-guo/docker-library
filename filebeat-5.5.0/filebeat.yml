@@ -14,3 +14,4 @@ output.elasticsearch:
   hosts: ["elasticsearch:9200"]
   template.name: filebeat
   template.path: filebeat.template.json
+  index: "log-app"
