@@ -10,4 +10,8 @@ if [ ! -z "$HOSTNAME" ]; then
     sed -r -i "s/(hostname:) (.*)/\1 $HOSTNAME/g" /filebeat.yml
 fi
 
+if [ ! -z "$INDEX_NAME" ]; then
+    sed -r -i "s/(index:) (.*)/\1 \"$INDEX_NAME\"/g" /filebeat.yml
+fi
+
 /filebeat/filebeat -e -c /filebeat.yml
