@@ -30,11 +30,13 @@ if [[ ! -f "$ZOO_DATA_DIR/myid" ]]; then
     echo "${ZOO_MY_ID:-1}" > "$ZOO_DATA_DIR/myid"
 fi
 
-nohup zkServer.sh start-foreground > zookeeper.log 2>&1 &
+zkServer.sh start-foreground
 
-while ! nc -vz 127.0.0.1 $ZOO_PORT; do   
-    sleep 2
-done
+# nohup zkServer.sh start-foreground > zookeeper.log 2>&1 &
 
-cd $ZKUI_DIR
-java -jar zkui.jar
+# while ! nc -vz 127.0.0.1 $ZOO_PORT; do   
+#     sleep 2
+# done
+
+# cd $ZKUI_DIR
+# java -jar zkui.jar

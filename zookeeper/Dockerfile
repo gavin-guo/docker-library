@@ -34,7 +34,7 @@ RUN set -ex; \
         libressl; \
     wget -q "https://www.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
     wget -q "https://www.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz.asc"; \
-    wget -q "http://sftp.chinacloudapp.cn/docker/zkui-2.0-SNAPSHOT-jar-with-dependencies.jar" -O "$ZKUI_DIR/zkui.jar"; \
+    # wget -q "http://sftp.chinacloudapp.cn/docker/zkui-2.0-SNAPSHOT-jar-with-dependencies.jar" -O "$ZKUI_DIR/zkui.jar"; \
     export GNUPGHOME="$(mktemp -d)"; \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-key "$GPG_KEY" || \
     gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEY" || \
@@ -54,7 +54,7 @@ ENV PATH=$PATH:/$DISTRO_NAME/bin \
     ZOOCFGDIR=$ZOO_CONF_DIR
 
 COPY docker-entrypoint.sh /
-COPY config.cfg $ZKUI_DIR/
+# COPY config.cfg $ZKUI_DIR/
 
 RUN set -x \
     && chmod +x /docker-entrypoint.sh
