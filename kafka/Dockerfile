@@ -18,7 +18,7 @@ RUN set -x \
     	ca-certificates \
     	wget \
         tar \
-    && wget -q "http://mirror.reverse.net/pub/apache/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
+    && wget -q "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && tar -xzf "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && mv "kafka_${SCALA_VERSION}-${KAFKA_VERSION}" "$KAFKA_HOME" \
     # && wget -q "http://sftp.chinacloudapp.cn/docker/kafdrop-${KAFDROP_VERSION}.jar" -O /kafdrop.jar \
