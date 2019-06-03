@@ -21,8 +21,8 @@ RUN set -x \
     && wget -q "http://mirror.reverse.net/pub/apache/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && tar -xzf "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && mv "kafka_${SCALA_VERSION}-${KAFKA_VERSION}" "$KAFKA_HOME" \
-    && wget -q "http://sftp.chinacloudapp.cn/docker/kafdrop-${KAFDROP_VERSION}.jar" -O /kafdrop.jar \
-    && rm -r "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
+    # && wget -q "http://sftp.chinacloudapp.cn/docker/kafdrop-${KAFDROP_VERSION}.jar" -O /kafdrop.jar \
+    # && rm -r "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && apk del .build-deps
 
 COPY docker-entrypoint.sh /
@@ -36,6 +36,7 @@ VOLUME ["/tmp/kafka-logs"]
 
 WORKDIR $KAFKA_HOME/bin
 
-EXPOSE 9092 9000
+# EXPOSE 9092 9000
+EXPOSE 9092
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

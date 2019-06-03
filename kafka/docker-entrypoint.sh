@@ -57,10 +57,11 @@ if [ ! -z "$AUTO_CREATE_TOPICS" ]; then
 fi
 
 export JMX_PORT=9999
-nohup kafka-server-start.sh $KAFKA_HOME/config/server.properties &
+# nohup kafka-server-start.sh $KAFKA_HOME/config/server.properties &
+kafka-server-start.sh $KAFKA_HOME/config/server.properties
 
-while ! nc -vz 127.0.0.1 9092; do   
-    sleep 2
-done
+# while ! nc -vz 127.0.0.1 9092; do   
+#     sleep 2
+# done
 
-java -jar /kafdrop.jar --zookeeper.connect=$ZOOKEEPER_CONNECT
+# java -jar /kafdrop.jar --zookeeper.connect=$ZOOKEEPER_CONNECT
