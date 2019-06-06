@@ -15,3 +15,5 @@ output.elasticsearch:
   template.name: filebeat
   template.path: filebeat.template.json
   index: "filebeat"
+  #username: "USER"
+  #password: "PASSWORD"

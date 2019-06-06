@@ -14,4 +14,12 @@ if [ ! -z "$INDEX_NAME" ]; then
     sed -r -i "s/(index:) (.*)/\1 \"$INDEX_NAME\"/g" /filebeat.yml
 fi
 
+if [ ! -z "$USER_NAME" ]; then
+    sed -r -i "s/(#username:) (.*)/\1 \"$USER_NAME\"/g" /filebeat.yml
+fi
+
+if [ ! -z "$PASSWORD" ]; then
+    sed -r -i "s/(#password:) (.*)/\1 \"$PASSWORD\"/g" /filebeat.yml
+fi
+
 /filebeat/filebeat -e -c /filebeat.yml
