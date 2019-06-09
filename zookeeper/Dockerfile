@@ -31,8 +31,8 @@ RUN set -ex; \
         ca-certificates \
         gnupg \
         libressl; \
-    wget -q "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
-    wget -q "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz.asc"; \
+    wget -q "http://mirror.bit.edu.cn/apache/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
+    wget -q "http://mirror.bit.edu.cn/apache/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz.asc"; \
     # wget -q "http://sftp.chinacloudapp.cn/docker/zkui-2.0-SNAPSHOT-jar-with-dependencies.jar" -O "$ZKUI_DIR/zkui.jar"; \
     export GNUPGHOME="$(mktemp -d)"; \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-key "$GPG_KEY" || \
