@@ -33,11 +33,8 @@ RUN set -x \
 
 # Download Zookeeper & Kafka & Kafdrop & Kafka-Manager, untar and clean up
 RUN set -ex; \
-	apk update; \
     apk add --no-cache --virtual .build-deps \
     	ca-certificates \
-    	wget \
-        tar \
         gnupg \
         libressl; \
     wget -q "https://archive.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
@@ -45,7 +42,7 @@ RUN set -ex; \
     export GNUPGHOME="$(mktemp -d)"; \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-key "$GPG_KEY" || \
     gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEY" || \
-    gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEY" \
+    gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEY"; \
     gpg --batch --verify "$DISTRO_NAME.tar.gz.asc" "$DISTRO_NAME.tar.gz"; \
     tar -xzf "$DISTRO_NAME.tar.gz"; \
     rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc"; \
