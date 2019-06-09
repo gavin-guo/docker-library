@@ -4,7 +4,6 @@ MAINTAINER gavin-guo
 
 RUN apk add --no-cache \
     bash \
-    supervisor \
     snappy
 
 ENV SCALA_VERSION=2.11 \
