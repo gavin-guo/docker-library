@@ -23,7 +23,7 @@ RUN set -ex; \
     chown "$ZOO_USER:$ZOO_USER" "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR"
 
 ARG GPG_KEY=C61B346552DC5E0CB53AA84F59147497767E7473
-ARG DISTRO_NAME=zookeeper-3.4.13
+ARG DISTRO_NAME=zookeeper-3.4.14
 
 # Download Apache Zookeeper, verify its PGP signature, untar and clean up
 RUN set -ex; \
@@ -31,8 +31,8 @@ RUN set -ex; \
         ca-certificates \
         gnupg \
         libressl; \
-    wget -q "https://www.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
-    wget -q "https://www.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz.asc"; \
+    wget -q "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
+    wget -q "https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz.asc"; \
     # wget -q "http://sftp.chinacloudapp.cn/docker/zkui-2.0-SNAPSHOT-jar-with-dependencies.jar" -O "$ZKUI_DIR/zkui.jar"; \
     export GNUPGHOME="$(mktemp -d)"; \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-key "$GPG_KEY" || \
