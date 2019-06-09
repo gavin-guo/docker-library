@@ -51,9 +51,9 @@ RUN set -ex; \
     mv "kafka_${SCALA_VERSION}-${KAFKA_VERSION}" "$KAFKA_HOME"; \
     apk del .build-deps
 
-ADD start-kafka.sh /
+ADD ./start-kafka.sh /
 
-COPY supervisord.conf /supervisord.conf
+COPY ./supervisord.conf /supervisord.conf
 
 RUN set -x \
     && chmod +x /start-kafka.sh
