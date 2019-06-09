@@ -19,8 +19,8 @@ ENV ZOO_USER=zookeeper \
 # Add a user and make dirs
 RUN set -ex; \
     adduser -D "$ZOO_USER"; \
-    mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZKUI_DIR"; \
-    chown "$ZOO_USER:$ZOO_USER" "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR" "$ZKUI_DIR"
+    mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR"; \
+    chown "$ZOO_USER:$ZOO_USER" "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR"
 
 ARG GPG_KEY=C61B346552DC5E0CB53AA84F59147497767E7473
 ARG DISTRO_NAME=zookeeper-3.4.13
