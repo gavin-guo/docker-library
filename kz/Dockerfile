@@ -79,7 +79,7 @@ RUN set -x \
     && rm -r "zookeeper-${ZOOKEEPER_VERSION}.tar.gz" "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && apk del .build-deps
 
-ADD scripts/start-kafka.sh
+ADD scripts/start-kafka.sh /
 
 COPY supervisord.conf /supervisord.conf
 
