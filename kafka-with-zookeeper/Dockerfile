@@ -51,16 +51,13 @@ RUN set -ex; \
     mv "kafka_${SCALA_VERSION}-${KAFKA_VERSION}" "$KAFKA_HOME"; \
     apk del .build-deps
 
-# ADD ./start-kafka.sh /
-
+ADD ./start-kafka.sh /
 COPY ./supervisord.conf /supervisord.conf
 
 RUN set -x \
     && chmod +x /start-kafka.sh
 
 ENV PATH=$PATH:$KAFKA_HOME/bin:/$DISTRO_NAME/bin
-
-WORKDIR $KAFKA_HOME/bin
 
 VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR", "/tmp/kafka-logs"]
 
