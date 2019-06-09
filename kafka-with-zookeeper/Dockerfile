@@ -1,42 +1,7 @@
-FROM openjdk:8-jre-alpine
+FROM gaven/alpine:8-jre
 
 MAINTAINER gavin-guo
 
-# because alpine linux has no glibc, should install glibc.
-RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
-    ALPINE_GLIBC_PACKAGE_VERSION="2.26-r0" && \
-    ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
-    wget \
-        "https://raw.githubusercontent.com/andyshinn/alpine-pkg-glibc/master/sgerrand.rsa.pub" \
-        -O "/etc/apk/keys/sgerrand.rsa.pub" && \
-    wget \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    apk add --no-cache \
-        "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    \
-    rm "/etc/apk/keys/sgerrand.rsa.pub" && \
-    /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 C.UTF-8 || true && \
-    echo "export LANG=C.UTF-8" > /etc/profile.d/locale.sh && \
-    \
-    apk del glibc-i18n && \
-    \
-    rm "/root/.wget-hsts" && \
-    apk del .build-dependencies && \
-    rm \
-        "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
-
-ENV LANG=C.UTF-8
-
-# install required packages
 RUN apk add --no-cache \
     bash \
     su-exec \
@@ -49,20 +14,20 @@ ENV ZOO_USER=zookeeper \
     ZOO_PORT=2181 \
     ZOO_TICK_TIME=2000 \
     ZOO_INIT_LIMIT=5 \
-    ZOO_SYNC_LIMIT=2
+    ZOO_SYNC_LIMIT=2 \
+    ZOO_AUTOPURGE_PURGEINTERVAL=0 \
+    ZOO_AUTOPURGE_SNAPRETAINCOUNT=3 \
+    ZOO_MAX_CLIENT_CNXNS=60
 
 ENV SCALA_VERSION=2.11 \
     KAFKA_VERSION=1.0.0 \
-    ZOOKEEPER_VERSION=3.4.10 \
-    KAFDROP_VERSION=2.0.0 \
-    KAFKA_MANAGER_VERSION=1.3.3.7
+    KAFKA_HOME="/kafka"
 
 ENV KAFKA_HOME="/kafka_${SCALA_VERSION}-${KAFKA_VERSION}" \
-    ZOOKEEPER_HOME="/zookeeper-${ZOOKEEPER_VERSION}"
 
-ENV KAFKA_MONITOR_PORT 9001
+ARG GPG_KEY=C61B346552DC5E0CB53AA84F59147497767E7473
+ARG DISTRO_NAME=zookeeper-3.4.13
 
-# Add a user and make dirs
 RUN set -x \
     && adduser -D "$ZOO_USER" \
     && mkdir -p "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" \
@@ -75,29 +40,36 @@ RUN set -x \
     	ca-certificates \
     	wget \
         tar \
-    && wget -q "http://www.apache.org/dist/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz" \
-    && tar -xzf "zookeeper-${ZOOKEEPER_VERSION}.tar.gz" \
-    && cp "$ZOOKEEPER_HOME/conf/zoo_sample.cfg" "$ZOOKEEPER_HOME/conf/zoo.cfg" \
-    && wget -q "http://mirror.reverse.net/pub/apache/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
+        gnupg \
+        libressl \
+    && wget -q "https://www.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz"; \
+    && wget -q "https://www.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz.asc"; \
+    && export GNUPGHOME="$(mktemp -d)"; \
+    && gpg --keyserver ha.pool.sks-keyservers.net --recv-key "$GPG_KEY" || \
+    && gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEY" || \
+    && gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEY"; \
+    && gpg --batch --verify "$DISTRO_NAME.tar.gz.asc" "$DISTRO_NAME.tar.gz"; \
+    && tar -xzf "$DISTRO_NAME.tar.gz"; \
+    && rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc"; \
+    
+    && wget -q "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     && tar -xzf "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
-    && wget -q "http://sftp.chinacloudapp.cn/docker/kafdrop-${KAFDROP_VERSION}.jar" -O /kafdrop.jar \
-    && wget -q "https://github.com/Morningstar/kafka-offset-monitor/releases/download/0.4.1/KafkaOffsetMonitor-assembly-0.4.1-SNAPSHOT.jar" -O /kafkaOffsetMonitor.jar \
-    && rm -r "zookeeper-${ZOOKEEPER_VERSION}.tar.gz" "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
-    && apk del .build-deps
+    && mv "kafka_${SCALA_VERSION}-${KAFKA_VERSION}" "$KAFKA_HOME" \
+    apk del .build-deps
 
-ADD scripts/start-kafka.sh scripts/start-kafdrop.sh scripts/start-kafka-offset-monitor.sh /
+ADD scripts/start-kafka.sh /
 
 COPY supervisord.conf /supervisord.conf
 
 RUN set -x \
-    && chmod +x /start-kafka.sh /start-kafdrop.sh /start-kafka-offset-monitor.sh
+    && chmod +x /start-kafka.sh
 
-VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR"]
+ENV PATH=$PATH:$KAFKA_HOME/bin
 
-ENV PATH=$PATH:${ZOOKEEPER_HOME}/bin:$KAFKA_HOME/bin:$KAFKA_MANAGER_HOME/bin \
-    ZOOCFGDIR=${ZOOKEEPER_HOME}/conf
+WORKDIR $KAFKA_HOME/bin
 
-# $ZOO_PORT is zookeeper, 9092 is kafka, 9000 is kafdrop, $KAFKA_MONITOR_PORT is Kafka-offset-monitor
-EXPOSE $ZOO_PORT 9092 9000 $KAFKA_MONITOR_PORT
+VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR", "/tmp/kafka-logs"]
+
+EXPOSE 2181 9092
 
 ENTRYPOINT ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/supervisord.conf"]
