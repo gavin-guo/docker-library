@@ -14,8 +14,7 @@ ENV ZOO_USER=zookeeper \
     ZOO_SYNC_LIMIT=2 \
     ZOO_AUTOPURGE_PURGEINTERVAL=0 \
     ZOO_AUTOPURGE_SNAPRETAINCOUNT=3 \
-    ZOO_MAX_CLIENT_CNXNS=60 \
-    # ZKUI_DIR=/zkui
+    ZOO_MAX_CLIENT_CNXNS=60
 
 # Add a user and make dirs
 RUN set -ex; \
