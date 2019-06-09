@@ -51,14 +51,14 @@ RUN set -ex; \
     mv "kafka_${SCALA_VERSION}-${KAFKA_VERSION}" "$KAFKA_HOME"; \
     apk del .build-deps
 
-ADD scripts/start-kafka.sh /
+ADD start-kafka.sh /
 
 COPY supervisord.conf /supervisord.conf
 
 RUN set -x \
     && chmod +x /start-kafka.sh
 
-ENV PATH=$PATH:$KAFKA_HOME/bin
+ENV PATH=$PATH:$KAFKA_HOME/bin:/$DISTRO_NAME/bin
 
 WORKDIR $KAFKA_HOME/bin
 
