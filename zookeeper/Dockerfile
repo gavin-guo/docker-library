@@ -23,7 +23,7 @@ RUN set -ex; \
     chown "$ZOO_USER:$ZOO_USER" "$ZOO_DATA_LOG_DIR" "$ZOO_DATA_DIR" "$ZOO_CONF_DIR"
 
 ARG GPG_KEY=C61B346552DC5E0CB53AA84F59147497767E7473
-ARG DISTRO_NAME=zookeeper-3.4.14
+ARG DISTRO_NAME=zookeeper-3.4.13
 
 # Download Apache Zookeeper, verify its PGP signature, untar and clean up
 RUN set -ex; \
