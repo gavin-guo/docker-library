@@ -1,13 +1,13 @@
 #!/bin/sh
 
-if [[ -z "$INTERVAL_SEC" ]]; then
-    seconds = 60
+if [[ -z "$INTERVAL" ]]; then
+    interval=1m
 else
-    seconds = $INTERVAL_SEC
+    interval=$INTERVAL
 fi
 
 while true; do   
-    sleep $seconds
-    echo "executing task ..."
+    sleep $interval
+    echo "executing task..."
     sh /opt/bin/task.sh
 done
