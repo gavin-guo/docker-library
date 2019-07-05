@@ -8,7 +8,8 @@ RUN apk add --no-cache \
     supervisor
 
 RUN set -x \
-    && mkdir -p "/opt/bin"
+    && mkdir -p "/opt/bin" \
+    && mkdir -p "/data"
 
 WORKDIR /opt/
 
@@ -18,7 +19,7 @@ ADD ./supervisord.conf /opt/
 RUN set -x \
     && chmod +x launcher.sh
 
-VOLUME ["/opt/bin"]
+VOLUME ["/opt/bin", "/data"]
 
 
 ENTRYPOINT ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/opt/supervisord.conf"]
