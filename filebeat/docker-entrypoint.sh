@@ -22,6 +22,4 @@ if [ ! -z "$PASSWORD" ]; then
 	echo "  password: \"$PASSWORD\"" >> /filebeat.yml
 fi
 
-sleep 1d
-
 /filebeat/filebeat -e -c /filebeat.yml
