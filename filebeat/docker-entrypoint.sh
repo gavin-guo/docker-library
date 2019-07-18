@@ -3,7 +3,7 @@ if [ -z "$ELASTICSEARCH_ENDPOINT" ]; then
     echo "ERROR: missing mandatory config: ELASTICSEARCH_ENDPOINT"
     exit 1
 else
-    sed -r -i "s/(hosts:) (.*)/\1 [\"$ELASTICSEARCH_ENDPOINT\"]/g" /filebeat.yml
+    sed -r -i "s/(hosts:) (.*)/\1 [$ELASTICSEARCH_ENDPOINT]/g" /filebeat.yml
 fi
 
 if [ ! -z "$HOSTNAME" ]; then
