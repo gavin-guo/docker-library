@@ -9,9 +9,9 @@ RUN apk add --no-cache \
 
 ENV ZOO_USER=zookeeper \
     ZOO_HOME="/opt/zookeeper" \
-    ZOO_CONF_DIR=/zookeeper/conf \
-    ZOO_DATA_DIR=/zookeeper/data \
-    ZOO_DATA_LOG_DIR=/zookeeper/datalog \
+    ZOO_CONF_DIR=/opt/zookeeper/conf \
+    ZOO_DATA_DIR=/opt/zookeeper/data \
+    ZOO_DATA_LOG_DIR=/opt/zookeeper/datalog \
     ZOO_PORT=2181 \
     ZOO_TICK_TIME=2000 \
     ZOO_INIT_LIMIT=5 \
@@ -26,9 +26,10 @@ ARG DISTRO_NAME=zookeeper-3.4.13
 ENV SCALA_VERSION=2.11 \
     KAFKA_VERSION=1.0.0 \
     KAFKA_HOME="/opt/kafka" \
-    KAFKA_LOG_DIR=/tmp/kafka-logs
+    KAFKA_LOG_DIR=/opt/kafka/kafka-logs
 
 RUN set -ex; \
+    mkdir /opt; \
     apk add --no-cache --virtual .build-deps \
         ca-certificates \
         gnupg \
