@@ -22,8 +22,6 @@ if [[ ! -f "$ZOO_DATA_DIR/myid" ]]; then
   echo "${ZOO_MY_ID:-1}" >"$ZOO_DATA_DIR/myid"
 fi
 
-sleep 1d
-
 # for kafka
 sed -i "s/#(listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:9092/g" $KAFKA_HOME/config/server.properties
 sed -i "s/#(advertised.listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:9092/g" $KAFKA_HOME/config/server.properties
