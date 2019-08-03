@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     snappy
 
 ENV ZOO_USER=zookeeper \
-    ZOO_HOME="/zookeeper" \
+    ZOO_HOME="/opt/zookeeper" \
     ZOO_CONF_DIR=/zookeeper/conf \
     ZOO_DATA_DIR=/zookeeper/data \
     ZOO_DATA_LOG_DIR=/zookeeper/datalog \
@@ -25,7 +25,8 @@ ARG DISTRO_NAME=zookeeper-3.4.13
 
 ENV SCALA_VERSION=2.11 \
     KAFKA_VERSION=1.0.0 \
-    KAFKA_HOME="/kafka"
+    KAFKA_HOME="/opt/kafka" \
+    KAFKA_LOG_DIR=/tmp/kafka-logs
 
 RUN set -ex; \
     apk add --no-cache --virtual .build-deps \
@@ -66,7 +67,7 @@ ENV PATH=$PATH:$ZOO_HOME/bin:$KAFKA_HOME/bin \
 
 WORKDIR /
 
-VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR", "/tmp/kafka-logs"]
+VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR", "$KAFKA_LOG_DIR"]
 
 EXPOSE $ZOO_PORT 9092
 
