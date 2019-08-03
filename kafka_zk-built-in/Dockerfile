@@ -26,7 +26,7 @@ ARG DISTRO_NAME=zookeeper-3.4.13
 ENV SCALA_VERSION=2.11 \
     KAFKA_VERSION=1.0.0 \
     KAFKA_HOME="/opt/kafka" \
-    KAFKA_LOG_DIR="/opt/kafka/kafka-logs"
+    KAFKA_LOG_DIR=/opt/kafka/kafka-logs
 
 RUN set -ex; \
     mkdir /opt; \
