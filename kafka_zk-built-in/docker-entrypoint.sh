@@ -23,29 +23,24 @@ if [[ ! -f "$ZOO_DATA_DIR/myid" ]]; then
 fi
 
 # for kafka
-sed -r -i "s/#(listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:9092/g" $KAFKA_HOME/config/server.properties
-sed -r -i "s/#(advertised.listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:9092/g" $KAFKA_HOME/config/server.properties
-sed -r -i "s/(zookeeper.connect)=(.*)/\1=127.0.0.1:$ZOO_PORT/g" $KAFKA_HOME/config/server.properties
-sed -r -i "s/(log.dirs)=(.*)/\1=$KAFKA_LOG_DIR/g" $KAFKA_HOME/config/server.properties
+sed -i "s/#(listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:9092/g" $KAFKA_HOME/config/server.properties
+sed -i "s/#(advertised.listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:9092/g" $KAFKA_HOME/config/server.properties
+sed -i "s/(zookeeper.connect)=(.*)/\1=127.0.0.1:$ZOO_PORT/g" $KAFKA_HOME/config/server.properties
+sed -i "s/(log.dirs)=(.*)/\1=$KAFKA_LOG_DIR/g" $KAFKA_HOME/config/server.properties
 
 if [ ! -z "$LOG_RETENTION_HOURS" ]; then
   echo "log.retention.hours: $LOG_RETENTION_HOURS"
-  sed -r -i "s/(log.retention.hours)=(.*)/\1=$LOG_RETENTION_HOURS/g" $KAFKA_HOME/config/server.properties
+  sed -i "s/(log.retention.hours)=(.*)/\1=$LOG_RETENTION_HOURS/g" $KAFKA_HOME/config/server.properties
 fi
 
 if [ ! -z "$LOG_RETENTION_BYTES" ]; then
   echo "log.retention.bytes: $LOG_RETENTION_BYTES"
-  sed -r -i "s/#(log.retention.bytes)=(.*)/\1=$LOG_RETENTION_BYTES/g" $KAFKA_HOME/config/server.properties
+  sed -i "s/#(log.retention.bytes)=(.*)/\1=$LOG_RETENTION_BYTES/g" $KAFKA_HOME/config/server.properties
 fi
 
 if [ ! -z "$NUM_PARTITIONS" ]; then
   echo "num.partitions: $NUM_PARTITIONS"
-  sed -r -i "s/(num.partitions)=(.*)/\1=$NUM_PARTITIONS/g" $KAFKA_HOME/config/server.properties
-fi
-
-if [ ! -z "$AUTO_CREATE_TOPICS" ]; then
-  echo "auto.create.topics.enable: $AUTO_CREATE_TOPICS"
-  echo "auto.create.topics.enable=$AUTO_CREATE_TOPICS" >>$KAFKA_HOME/config/server.properties
+  sed -i "s/(num.partitions)=(.*)/\1=$NUM_PARTITIONS/g" $KAFKA_HOME/config/server.properties
 fi
 
 /usr/bin/supervisord --nodaemon --configuration /supervisord.conf
