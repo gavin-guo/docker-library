@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e
 
 while ! nc -vz 127.0.0.1 $ZOO_PORT; do
