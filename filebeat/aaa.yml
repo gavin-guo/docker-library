@@ -3,22 +3,33 @@ filebeat.inputs:
     enabled: true
     paths:
       - /opt/log/stash/*/*.log
-      json.keys_under_root: true
-      json.overwrite_keys: true
-      scan_frequency: 10s
-      force_close_files: true
-      close_timeout: 2m
+    processors:
+      - add_kubernetes_metadata:
+          in_cluster: true
+          host: ${NODE_NAME}
+          matchers:
+            - logs_path:
+                logs_path: "/var/log/containers/"
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    scan_frequency: 10s
+    force_close_files: true
+    close_timeout: 2m
+
+setup.template.name: filebeat
+setup.template.pattern: filebeat.template.json
 
 processors:
   - drop_fields:
-      fields: ["beat"]
+      fields: ["beat","level_value"]
+  - add_host_metadata: ~
 
 output.elasticsearch:
   enabled: true
   hosts: ["127.0.0.1:9200"]
+  #protocol: "https"
+  #username: "elastic"
+  #password: "changeme"
   index: "log-xxxx-%{+yyyy.MM.dd}"
   worker: 5
 # logging.to_files: true
-
-setup.template.name: filebeat
-setup.template.pattern: filebeat.template.json
