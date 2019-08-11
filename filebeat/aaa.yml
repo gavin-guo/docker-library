@@ -1,0 +1,24 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /opt/log/stash/*/*.log
+      json.keys_under_root: true
+      json.overwrite_keys: true
+      scan_frequency: 10s
+      force_close_files: true
+      close_timeout: 2m
+
+processors:
+  - drop_fields:
+      fields: ["beat"]
+
+output.elasticsearch:
+  enabled: true
+  hosts: ["127.0.0.1:9200"]
+  index: "log-xxxx-%{+yyyy.MM.dd}"
+  worker: 5
+# logging.to_files: true
+
+setup.template.name: filebeat
+setup.template.pattern: filebeat.template.json
