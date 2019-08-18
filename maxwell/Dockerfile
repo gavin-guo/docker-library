@@ -5,7 +5,7 @@ MAINTAINER gavin-guo
 RUN apk add --no-cache \
     bash
 
-ENV MAXWELL_VERSION=1.17.1 \
+ENV MAXWELL_VERSION=1.22.3 \
     MAXWELL_HOME="/maxwell"
 
 RUN set -x \
