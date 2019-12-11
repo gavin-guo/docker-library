@@ -28,6 +28,10 @@ if [ ! -z "$KAFKA_BOOTSTRAP_SERVERS" ]; then
     sed -r -i "s/(kafka.bootstrap.servers)=(.*)/\1=$KAFKA_BOOTSTRAP_SERVERS/g" /config/config.properties
 fi
 
+if [ ! -z "$KAFKA_TOPIC" ]; then
+    sed -r -i "s/(kafka_topic)=(.*)/\1=$KAFKA_TOPIC/g" /config/config.properties
+fi
+
 if [ ! -z "$IGNORE_PRODUCER_ERROR" ]; then
     sed -r -i "s/(ignore_producer_error)=(.*)/\1=$IGNORE_PRODUCER_ERROR/g" /config/config.properties
 fi
