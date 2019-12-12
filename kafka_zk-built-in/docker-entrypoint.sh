@@ -23,8 +23,8 @@ if [[ ! -f "$ZOO_DATA_DIR/myid" ]]; then
 fi
 
 # for kafka
-sed -r -i "s/#(listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:9092/g" $KAFKA_HOME/config/server.properties
-sed -r -i "s/#(advertised.listeners)=(.*)/\1=PLAINTEXT:\/\/localhost:9092/g" $KAFKA_HOME/config/server.properties
+sed -r -i "s/#(listeners)=(.*)/\1=PLAINTEXT:\/\/0.0.0.0:$KAFKA_PORT/g" $KAFKA_HOME/config/server.properties
+sed -r -i "s/#(advertised.listeners)=(.*)/\1=PLAINTEXT:\/\/localhost:$KAFKA_PORT/g" $KAFKA_HOME/config/server.properties
 sed -r -i "s/(zookeeper.connect)=(.*)/\1=127.0.0.1:$ZOO_PORT/g" $KAFKA_HOME/config/server.properties
 sed -r -i "s/(log.dirs)=(.*)/\1=${KAFKA_LOG_DIR//\//\\/}/g" $KAFKA_HOME/config/server.properties
 
