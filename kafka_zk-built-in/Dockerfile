@@ -23,8 +23,8 @@ ENV ZOO_USER=zookeeper \
 ARG GPG_KEY=C61B346552DC5E0CB53AA84F59147497767E7473
 ARG DISTRO_NAME=zookeeper-3.4.13
 
-ENV SCALA_VERSION=2.12 \
-    KAFKA_VERSION=2.3.1 \
+ENV SCALA_VERSION=2.13 \
+    KAFKA_VERSION=2.8.1 \
     KAFKA_PORT=9092 \
     KAFKA_HOME="/opt/kafka" \
     KAFKA_LOG_DIR=/opt/kafka/kafka-logs
@@ -47,7 +47,7 @@ RUN set -ex; \
     mv "$DISTRO_NAME" "$ZOO_HOME"; \
     rm -rf "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc"; \
     # download kafka
-    wget -q "https://mirror.bit.edu.cn/apache/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz"; \
+    wget -q "https://downloads.apache.org/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz"; \
     tar -xzf "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz"; \
     mv "kafka_${SCALA_VERSION}-${KAFKA_VERSION}" "$KAFKA_HOME"; \
     rm -r "kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz"; \
